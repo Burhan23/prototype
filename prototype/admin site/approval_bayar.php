@@ -56,11 +56,12 @@ else{
                 </thead>
                 <tbody>
                 <?php
-                    $id_mou = 1;
+                    $id_mou = 0;
                         foreach ($detail_mou as $akun) {
                              if($akun['status'] == '1' or $akun['status'] == '4' and $id_mou < 6){
                         $pengrajin = $select->selectUsersById($akun['id_pengrajin']);
                         $investor = $select->selectUsersById($akun['id_investor']);
+                        $id_mou = 1;
                     ?>
                     <td><?php echo $id_mou++ ?></td>
                     <td><?php echo $investor['fname'] ?><h2>(NIK : <?php echo $investor['nik'] ?>)</h2></td>
@@ -75,7 +76,7 @@ else{
                         <a class="btn btn-primary" href="bukti_mou.php?mou=<?php echo $akun['mou'] ?>">Cek MOU</a>
                         <a class="btn btn-success" href="proses.php?id=<?php echo $akun['id'] ?>&aksi=mou_valid" onclick="return confirm('Apa kamu sudah cek?')">Valid</a>
                     </td>
-                    <?php } } else { ?>
+                    <?php } } elseif ($id_mou == 0) { ?>
                     <a> (Tidak ada untuk saat ini) </a>
                     <td>-</td>
                     <td>-</td>
@@ -101,11 +102,12 @@ else{
                 <tbody>
                 
                 <?php
-                    $id_pembayaran = 1;
+                    $id_pembayaran = 0;
                         foreach ($detail_pembayaran as $info) {
                              if($info['status'] == '1' or $info['status'] == '8' and $id_pembayaran < 6){
                             $pengrajin = $select->selectUsersById($info['id_pengrajin']);
                             $investor = $select->selectUsersById($info['id_investor']);
+                            $id_pembayaran = 1;
                     ?>
                         <tr>
                             <td><?php echo $id_pembayaran++; ?></td>
@@ -121,8 +123,9 @@ else{
                             </td>
                             <?php } elseif ($info['status'] == '9') {?>
                             <td>Sudah di kirim</td>
-                            <?php } }  else { ?>
+                            <?php } }   elseif ($id_pembayaran == 0) { ?>
                     <a> (Tidak ada untuk saat ini) </a>
+                    <td>-</td>
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>

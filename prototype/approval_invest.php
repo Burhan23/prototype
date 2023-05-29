@@ -5,6 +5,10 @@ $send = new Send();
 $invest = new Invest();
 $select = new Select();
 $date = new Date();
+$hari = "P7D";
+$future = $date->ambilTanggalPrediksi($hari);
+$after = $date->tanggalIndonesia($future);
+
 
 if(!empty($_SESSION["id"])){
   $user = $select->selectUserById($_SESSION["id"]);
@@ -35,6 +39,7 @@ else{
     
     <div class="container">
     <h1>Menu investasi <?php echo $user["username"]; ?></h1>
+    <a><?php echo $after?></a>
 
     <div style="margin-top:20px;">
         <label style="font-size: 20px;">

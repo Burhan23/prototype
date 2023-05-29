@@ -9,6 +9,9 @@ $invest = new Invest();
 $send = new Send();
 $edit = new Edit();
 $mou = new MOU();
+$progres = new Progres();
+$dateSekarang = new DateTime();
+$date = new Date();
 
 $select = new Select();
 
@@ -201,6 +204,34 @@ if($aksi == "tambah"){
 			header("location:approval_invest.php");
 			}
 		}
+} else if ($aksi == 'progres') {
+	date_default_timezone_set('Asia/Jakarta');
+	$hariini = $dateSekarang->format('Y-m-d');
+	$waktuini = $date->tanggalIndonesia($hariini);
+	if (isset($_FILES['progres']['name'])){
+		if (($_FILES['progres']['name']!="")){
+			$target_dir = "progres/";
+			$file = $_FILES['progres']['name'];
+			$path = pathinfo($file);
+			$filename = $path['filename'];
+			$ext = $path['extension'];
+			$movefile = "Progres_".$_REQUEST['id_produk']."_".$_REQUEST['id_users']."_".$waktuini.".".$ext;
+			$temp_name = $_FILES['progres']['tmp_name'];
+			$path_filename_ext = $target_dir.$movefile;
+			if (file_exists($path_filename_ext)) {
+				echo "Sorry, file already exists.";
+			}else{
+				move_uploaded_file($temp_name,$path_filename_ext);
+				echo "Congratulations! File Uploaded Successfully.";
+			}
+		}
+		$progres->tambahProgresDenganGambar($_REQUEST['id_produk'],$movefile,$_REQUEST['tanggal_mulai'],$_REQUEST['prediksi'],$_REQUEST['id_users']);
+		header("location:progres.php");
+	} else {
+		$progres->tambahProgresTanpaGambar($_REQUEST['id_produk'],$_REQUEST['tanggal_mulai'],$_REQUEST['prediksi'],$_REQUEST['id_users']);
+		header("location:progres.php");
+	}
+
 }
 
 ?>

@@ -5,6 +5,16 @@ $db = new database();
 require 'function.php';
 
 $select = new Select();
+$date = new Date();
+$hari = "P7D";
+$future = $date->ambilTanggalPrediksi($hari);
+$after = $date->tanggalIndonesia($future);
+if (isset($_POST['waktu'])) {
+    $value = $_POST['waktu'];
+}
+else {
+    $value = 0;
+}
 
 if(!empty($_SESSION["id"])){
   $user = $select->selectUserById($_SESSION["id"]);
@@ -33,6 +43,15 @@ else{
         <h1>
             Upload Produk
         </h1>
+        <form method="post">
+            <select name="waktu"  onChange="this.form.submit();">
+                <option value="<?php echo $value ?>">Model <?php echo $value ?></option>
+                <option value="1">Model 1</option>
+                <option value="2">Model 2</option>
+                <option value="3">Model 3</option>
+            </select>
+        </form>
+        <?php if ($value == "2") { ?>
         <form action="proses.php?id_users=<?php echo $user['id'] ?>&aksi=tambah" enctype="multipart/form-data" method="post">
             <div class="mb-3">
                 <label for="nama_product" class="form-label">Nama Produk</label>
@@ -49,7 +68,14 @@ else{
             <input type="submit" class="btn btn-primary" value="Simpan">
             <a class="btn btn-warning" href="index_pengrajin.php">Batal</a>
         </form>
+        <?php } ?>
 
     </div>
+    <script type='text/javascript'>
+        function getHouseModel(){
+        var model=$('#house_model').val();
+        alert(model);
+        }
+    </script>
 </body>
 </html>

@@ -62,7 +62,7 @@ else{
                             <td><?php echo $akun['nama_product']?></td>
                             <td><?php echo $akun['deskripsi']?></td>
                             <td>
-                                <a class="btn btn-success btn-sm">Proses</a>
+                                <a class="btn btn-success btn-sm" href="add_progres.php?id_produk=<?php echo $akun['id'] ?>">Proses</a>
                                 <a class="btn btn-warning btn-sm" href="edit_produk.php?id=<?php echo $akun['id']; ?>">Edit</a>
                                 <a class="btn btn-danger btn-sm" href="proses.php?id=<?php echo $akun['id'];?>&aksi=hapus" onclick="return confirm('Apakah anda yakin?')">Hapus</a>
                             </td>

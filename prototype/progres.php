@@ -4,6 +4,7 @@ $db = new database();
 require 'function.php';
 
 $select = new Select();
+$date = new Date();
 
 if(!empty($_SESSION["id"])){
   $user = $select->selectUserById($_SESSION["id"]);
@@ -11,6 +12,8 @@ if(!empty($_SESSION["id"])){
 else{
   header("Location: login.php");
 }
+
+$detail = $select->selectProgresById($user['id']);
 ?>
 
 <!DOCTYPE html>
@@ -33,13 +36,9 @@ else{
     
     
     <div class="container">
-    <h1>Welcome <?php echo $user["fname"]; ?></h1>
-    <div style="padding-top:10px;">Ingin mendapat bantuan investasi? 
-        <a href="add.php" class="">Upload Produk</a>
-    </div>
     <div style="margin-top:20px;">
         <label style="font-size: 20px;">
-            Daftar Produkmu
+            Daftar Progres Produkmu
         </label>
             <table class="rwd-table">
                 <thead>
@@ -48,23 +47,33 @@ else{
                         <th scope="col">Foto Produk</th>
                         <th scope="col">Nama Produk</th>
                         <th scope="col">Deskripsi Produk</th>
+                        <th scope="col">Mulai Progres</th>
                         <th scope="col">Prediksi Selesai</th>
+                        <th scope="col">Progres</th>
                         <th scope="col">Apakah Sudah Selesai</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
                     $id = 1;
-                        foreach ($db->produk_data($user['id']) as $akun) {
+                        foreach ($detail as $akun) {
+                            $produk = $select->selectProductById($akun['id_produk']);
+                            $sekarang = $date->tanggalIndonesia($akun['tanggal_mulai']);
+                            $prediksi = $date->tanggalIndonesia($akun['tanggal_selesai']);
                     ?>
                         <tr style="border:1px solid green;">
                             <td><?php echo $id++; ?></td>
-                            <td><img style="max-width:200px;max-height:100px" src="uploads/<?php echo $akun['gambar']; ?>"></td>
-                            <td><?php echo $akun['nama_product']?></td>
-                            <td><?php echo $akun['deskripsi']?></td>
+                            <td><img style="max-width:200px;max-height:100px" src="progres/<?php echo $akun['foto']; ?>"></td>
+                            <td><?php echo $produk['nama_product']?></td>
+                            <td><?php echo $produk['deskripsi']?></td>
+                            <td><?php echo $sekarang ?></td>
+                            <td><?php echo $prediksi ?></td>
                             <td>
-                                <a class="btn btn-warning btn-sm" href="edit_produk.php?id=<?php echo $akun['id']; ?>">Edit</a>
-                                <a class="btn btn-danger btn-sm" href="proses.php?id=<?php echo $akun['id'];?>&aksi=hapus" onclick="return confirm('Apakah anda yakin?')">Hapus</a>
+                                <?php include 'progres-bar.php' ?>
+                            </td>
+                            <td>
+                                <a class="btn btn-success btn-sm" href="">Ya</a>
+                                <a class="btn btn-secondary btn-sm" href="">Belum</a>
                             </td>
                         </tr>
                     

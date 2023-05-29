@@ -94,6 +94,28 @@ class Select extends Connection{
   
   }
 
+  public function selectProductById($id){
+    $result = mysqli_query($this->conn, "SELECT * FROM produk WHERE id = $id");
+    return mysqli_fetch_assoc($result);
+  
+  }
+
+  public function selectProgresById($id){
+    $data = mysqli_query($this->conn, "SELECT * FROM progres_pengrajin WHERE id_users = $id");
+    $rows = mysqli_fetch_all($data, MYSQLI_ASSOC);
+		
+		return $rows;
+  
+  }
+
+  public function specifySelectProduct($user)
+	{
+		$data = mysqli_query($this->conn, "select * from produk where id='$user'");
+		$rows = mysqli_fetch_all($data, MYSQLI_ASSOC);
+		
+		return $rows;
+	}
+
   public function selectUserByUsername($username){
     $result = mysqli_query($this->conn, "SELECT * FROM users WHERE username = $username");
     return mysqli_fetch_all($result);
@@ -351,5 +373,30 @@ class Date extends Connection{
        
       return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
 
+  }
+  public function ambilTanggalPrediksi($hari)
+  {
+    date_default_timezone_set('Asia/Jakarta');
+    $dateBaru = new DateTime();
+    $interval = new DateInterval($hari) ;
+    $dateBaru->add($interval);
+    return $dateBaru->format('Y-m-d');
+  }
+  public function ambilTanggalSekarang()
+  {
+    date_default_timezone_set('Asia/Jakarta');
+    $dateSekarang = new DateTime();
+    return $dateSekarang->format('Y-m-d');
+  }
+}
+class Progres extends Connection{
+  public function tambahProgresDenganGambar($id_product, $gambar, $tanggal_mulai, $prediksi, $id_users)
+  {
+    mysqli_query($this->conn, "INSERT INTO progres_pengrajin (id, id_produk, foto, tanggal_mulai, tanggal_selesai, id_users) VALUES (NULL, '$id_product', '$gambar', '$tanggal_mulai', '$prediksi', '$id_users')");
+  }
+  public function tambahProgresTanpaGambar($id_product, $tanggal_mulai, $prediksi, $id_users)
+  {
+    $gambar = "none.png";
+    mysqli_query($this->conn, "INSERT INTO progres_pengrajin (id, id_produk, foto, tanggal_mulai, tanggal_selesai, id_users) VALUES (NULL, '$id_product', '$gambar', '$tanggal_mulai', '$prediksi', '$id_users')");
   }
 }
