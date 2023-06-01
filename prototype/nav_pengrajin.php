@@ -14,7 +14,7 @@
       <a href="approval_invest.php" class="nav-link">Cek Investasi</a>
       <a href="deskripsi.php" class="nav-link">Deskripsi</a>
       <a href="progres.php" class="nav-link">Progres</a>
-      <a href="" class="nav-link">Produk Selesai</a>
+      <a href="progres_selesai.php" class="nav-link">Produk Selesai</a>
       <a style="padding-left:auto; margin-left:auto">
       <a style="text-decoration:underline; color:blue" href="logout.php"  class="nav-link" onclick="return confirm('Apakah yakin ingin keluar?')">Logout</a>
       <a href="profile.php" class="nav-link">Profile</a>

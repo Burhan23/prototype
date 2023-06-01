@@ -5,18 +5,16 @@ require 'function.php';
 
 $select = new Select();
 $date = new Date();
-
-$now = $date->ambilTanggalSekarang();
-$hariini = $date->tanggalIndonesia($now);
+$specify = new Specify();
 
 
-if(!empty($_SESSION["id"])){
-  $user = $select->selectUserById($_SESSION["id"]);
-}
-else{
-  header("Location: login.php");
-}
-$detail = $select->selectProgresById($user['id']);
+
+
+
+
+$detail = $select->selectProgresById($_REQUEST['id']);
+$pengrajin = $select->selectUserById($_REQUEST['id']);
+$portofolio = $specify->cekPortofolio($_REQUEST['id']);
 ?>
 
 <!DOCTYPE html>
@@ -34,14 +32,14 @@ $detail = $select->selectProgresById($user['id']);
 
     <title>Mr.Kayu:Home</title>
 </head>
-<?php include 'nav_pengrajin.php' ?>
+
 <body style="background-image: url('css/11bg.jpg'); background-size:cover;" runat="server">
     
     
     <div class="container">
     <div style="margin-top:20px;">
-        <label style="font-size: 20px;">
-            Daftar Progres Produkmu
+        <label style="font-size: 20px; margin-top:20px;">
+            Portofolio <?php echo $pengrajin['fname'] ?>
         </label>
             <table class="rwd-table">
                 <thead>
@@ -50,46 +48,56 @@ $detail = $select->selectProgresById($user['id']);
                         <th scope="col">Foto Produk</th>
                         <th scope="col">Nama Produk</th>
                         <th scope="col">Deskripsi Produk</th>
-                        <th scope="col">Mulai Progres</th>
-                        <th scope="col">Prediksi Selesai</th>
-                        <th scope="col">Apakah Sudah Selesai</th>
-
+                        <th scope="col">Progres Selesai Pada</th>
+                        <th scope="col">Durasi Pembuatan</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
+                    if ($portofolio > 0) {
                     $id = 1;
                         foreach ($detail as $akun) {
                             $produk = $select->selectProductById($akun['id_produk']);
                             $sekarang = $date->tanggalIndonesia($akun['tanggal_mulai']);
                             $prediksi = $date->tanggalIndonesia($akun['tanggal_selesai']);
-                            $hari = "P7D";
-                            $prediction_new = $date->ambilTanggalPrediksi($hari);
-                            $prediksi_baru = $date->tanggalIndonesia($prediction_new);
-                            if ($akun['status'] == '0' or $akun['status'] == '50') { 
+                            $record = $date->tanggalIndonesia($akun['record']);
+                            $selisih = $date->selisihHari($akun['tanggal_mulai'],$akun['record']);
+                            if ($akun['status'] == '100') {
                     ?>
                         <tr style="border:1px solid green;">
                             <td><?php echo $id++; ?></td>
                             <td><img style="max-width:200px;max-height:100px" src="progres/<?php echo $akun['foto']; ?>"></td>
                             <td><?php echo $produk['nama_product']?></td>
                             <td><?php echo $produk['deskripsi']?></td>
-                            <td><?php echo $sekarang ?></td>
-                            <td><?php echo $prediksi ?><?php //echo $akun['status'] ?></td>
-                            <td>
-                            <div>
-                                <a href="progres_action.php?id=<?php echo $akun['id'] ?>&aksi=aksiselesai" class="btn btn-success">Selesai</a>
-                            </div>
-                            <div>
-                                <a href="progres_action.php?id=<?php echo $akun['id'] ?>&aksi=aksiubah" class="btn btn-warning">Edit</a>
-                            </div>
-                            <div>
-                                <a href="proses.php?id=<?php echo $akun['id'] ?>&aksi=hapusprogres" class="btn btn-danger">Hapus</a>
-                            </div>
-                            </td>
-                </tr>
+                            <td><?php echo $prediksi ?></td>
+                            <td><?php echo $selisih ?> Hari</td>
+                        </tr>
             <?php }} ?>
                 </tbody>
             </table>
+            
+            <?php } else { ?>
+                    <tr style="border:1px solid green;">
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            <?php } ?>
+
+            <?php if (isset($_REQUEST['admin'])) { ?>
+            <div style="text-align:center">
+            <a href="admin site/index.php" class="btn btn-primary">Kembali ke List User</a>
+            </div>
+            <?php } else { ?>
+            <div style="text-align:center">
+            <a href="profile_invest.php?id_users=<?php echo $_REQUEST['id']; ?>" class="btn btn-primary">Kembali</a>
+            </div>
+            <?php } ?>
         </div>
     </div>
 </body>
@@ -97,4 +105,4 @@ $detail = $select->selectProgresById($user['id']);
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</html>
+</html> 

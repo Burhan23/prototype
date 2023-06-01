@@ -108,6 +108,14 @@ class Select extends Connection{
   
   }
 
+  public function specifyProgresById($id){
+    $data = mysqli_query($this->conn, "SELECT * FROM progres_pengrajin WHERE id = $id");
+    $rows = mysqli_fetch_all($data, MYSQLI_ASSOC);
+		
+		return $rows;
+  
+  }
+
   public function specifySelectProduct($user)
 	{
 		$data = mysqli_query($this->conn, "select * from produk where id='$user'");
@@ -148,6 +156,10 @@ class Specify extends Connection{
 		
 		return $rows;
 	}
+  public function cekPortofolio($id){
+    $result = mysqli_query($this->conn, "SELECT * FROM progres_pengrajin WHERE (id_users = $id and status = '100')");
+    return mysqli_num_rows($result);
+  }
   
 }
 class Upgrade extends Connection{
@@ -382,11 +394,26 @@ class Date extends Connection{
     $dateBaru->add($interval);
     return $dateBaru->format('Y-m-d');
   }
+  public function ambilTanggalPrediksiLama($hari)
+  {
+    date_default_timezone_set('Asia/Jakarta');
+    $dateBaru = new DateTime();
+    $interval = new DateInterval($hari) ;
+    $dateBaru->add($interval);
+    return $dateBaru->format('Y-m-d');
+  }
   public function ambilTanggalSekarang()
   {
     date_default_timezone_set('Asia/Jakarta');
     $dateSekarang = new DateTime();
     return $dateSekarang->format('Y-m-d');
+  }
+  public function selisihHari($tanggal1, $tanggal2)
+  {
+    $awal  = date_create($tanggal1);
+    $akhir = date_create($tanggal2);
+    $diff  = date_diff( $awal, $akhir );
+    return $diff->days + 1;
   }
 }
 class Progres extends Connection{
@@ -398,5 +425,23 @@ class Progres extends Connection{
   {
     $gambar = "none.png";
     mysqli_query($this->conn, "INSERT INTO progres_pengrajin (id, id_produk, foto, tanggal_mulai, tanggal_selesai, id_users) VALUES (NULL, '$id_product', '$gambar', '$tanggal_mulai', '$prediksi', '$id_users')");
+  }
+  public function editTanggalMulai($id,$tanggal)
+  {
+    mysqli_query($this->conn, "UPDATE progres_pengrajin SET tanggal_mulai = '$tanggal' WHERE id = $id");
+  }
+  public function editTanggalSelesai($id,$hari,$tanggal)
+  {
+    $status = '50';
+    mysqli_query($this->conn, "UPDATE progres_pengrajin SET tanggal_selesai = '$tanggal' + interval $hari day, status = $status WHERE id = $id");
+  }
+  public function progresSelesai($id,$foto,$record)
+  {
+    $status = '100';
+    mysqli_query($this->conn, "UPDATE progres_pengrajin SET foto = '$foto', status = '$status', record = '$record' where id = $id");
+  }
+  public function deleteProgres($id)
+  {
+    mysqli_query($this->conn, "delete from progres_pengrajin where id = $id");
   }
 }

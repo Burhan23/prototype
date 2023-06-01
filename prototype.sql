@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2023 at 08:11 AM
+-- Generation Time: Jun 01, 2023 at 09:07 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -66,7 +66,8 @@ CREATE TABLE `bayar` (
 --
 
 INSERT INTO `bayar` (`id`, `id_investor`, `id_pengrajin`, `jumlah`, `metode`, `nomer`, `bukti`, `status`, `id_invest`) VALUES
-(4, '1', '1', 30010000, 'dana', '41142241', 'Bayar_Pemberian_dana1.png', '2', '1');
+(4, '2', '1', 30010000, 'dana', '41142241', 'Bayar_Pemberian_dana1.png', '2', '1'),
+(6, '2', '1', 10000000, 'dana', '41441241242', 'Bayar_Pengembalian_dana3.jpg', '3', '3');
 
 -- --------------------------------------------------------
 
@@ -110,8 +111,9 @@ CREATE TABLE `invest` (
 --
 
 INSERT INTO `invest` (`id`, `id_investor`, `id_pengrajin`, `jumlah_dana`, `status_investor`, `status_pengrajin`, `status`, `tanggal`, `mou`) VALUES
-(1, '2', '1', 30000000, 'Menunggu proses pengembalian dari Pengrajin', 'Harap segera melakukan pengembalian', '8', '2023-06-01', 'SURAT_PERJANJIAN_INVESTASI_1_vestor-john.docx'),
-(2, '2', '1', 20000000, 'Memproses MOU ke admin', 'Memproses MOU ke admin', '4', '2023-05-22', 'SURAT_PERJANJIAN_INVESTASI_2_vestor-john.docx');
+(1, '2', '1', 30000000, 'Menunggu proses pengembalian dari Pengrajin', 'Harap segera melakukan pengembalian', '8', '2023-05-01', 'SURAT_PERJANJIAN_INVESTASI_1_vestor-john.docx'),
+(2, '2', '1', 20000000, 'Memproses MOU ke admin', 'Memproses MOU ke admin', '4', '2023-05-22', 'SURAT_PERJANJIAN_INVESTASI_2_vestor-john.docx'),
+(3, '2', '1', 10000000, 'Permintaan sudah dikirim, Menunggu respon', 'Sudah dikirim, sedang diproses', '9', '2023-06-01', 'MOU belum dibuat');
 
 -- --------------------------------------------------------
 
@@ -153,17 +155,18 @@ CREATE TABLE `progres_pengrajin` (
   `tanggal_mulai` date NOT NULL DEFAULT current_timestamp(),
   `tanggal_selesai` date NOT NULL DEFAULT (current_timestamp() + interval 7 day),
   `status` varchar(50) NOT NULL DEFAULT '0',
-  `id_users` varchar(50) NOT NULL
+  `id_users` varchar(50) NOT NULL,
+  `record` date DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `progres_pengrajin`
 --
 
-INSERT INTO `progres_pengrajin` (`id`, `id_produk`, `foto`, `tanggal_mulai`, `tanggal_selesai`, `status`, `id_users`) VALUES
-(3, '23', 'none.png', '2023-05-29', '2023-06-05', '0', '1'),
-(2, '23', 'none.png', '2023-05-29', '2023-06-05', '0', '1'),
-(5, '23', 'Progres_23_1_29 Mei 2023.jpg', '2023-05-29', '2023-06-05', '50', '1');
+INSERT INTO `progres_pengrajin` (`id`, `id_produk`, `foto`, `tanggal_mulai`, `tanggal_selesai`, `status`, `id_users`, `record`) VALUES
+(6, '23', 'selesai_23_1_31 Mei 2023.jpg', '2023-05-31', '2023-09-24', '100', '1', '2023-05-31'),
+(2, '23', 'none.png', '2023-06-01', '2023-08-23', '50', '1', '2024-05-23'),
+(7, '22', 'Progres_22_1_31 Mei 2023.jpg', '2023-05-31', '2023-08-19', '50', '1', '2024-05-23');
 
 -- --------------------------------------------------------
 
@@ -215,8 +218,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `email`, `username`, `password`, `no_telepon`, `pp`, `role`, `npwp`, `nik`, `no_rekening`, `deskripsi`, `last_login`) VALUES
-(1, 'john cena', 'john@gmail.com', 'john', '123', '082331334', 'm3.png', '1', '23132132', '214421124', '421421124', '', '2023-05-29'),
-(2, 'Kawal Investor', 'vestor@gmail.com', 'vestor', '123', '0823443465', 'm3.png', '2', '23124124', '142214124', '1421241421', '', '2023-05-22'),
+(1, 'john cena', 'john@gmail.com', 'john', '123', '082331334', 'none.png', '1', '23132132', '214421124', '421421124', '', '2023-06-01'),
+(2, 'Kawal Investor', 'vestor@gmail.com', 'vestor', '123', '0823443465', 'm3.png', '2', '23124124', '142214124', '1421241421', '', '2023-06-01'),
 (3, 'Farhan tester', 'farhan@gmail.com', 'farhan', '123', '0835565664', 'Akun Netacad.png', '1', 'false', 'false', 'false', 'Ini merupakan desktipsi pengrajin mengenai kerajinan', '2023-05-22');
 
 --
@@ -281,13 +284,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bayar`
 --
 ALTER TABLE `bayar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `invest`
 --
 ALTER TABLE `invest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `produk`
@@ -299,7 +302,7 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT for table `progres_pengrajin`
 --
 ALTER TABLE `progres_pengrajin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `upgrade`

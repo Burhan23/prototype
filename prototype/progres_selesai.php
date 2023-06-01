@@ -6,9 +6,6 @@ require 'function.php';
 $select = new Select();
 $date = new Date();
 
-$now = $date->ambilTanggalSekarang();
-$hariini = $date->tanggalIndonesia($now);
-
 
 if(!empty($_SESSION["id"])){
   $user = $select->selectUserById($_SESSION["id"]);
@@ -51,9 +48,7 @@ $detail = $select->selectProgresById($user['id']);
                         <th scope="col">Nama Produk</th>
                         <th scope="col">Deskripsi Produk</th>
                         <th scope="col">Mulai Progres</th>
-                        <th scope="col">Prediksi Selesai</th>
-                        <th scope="col">Apakah Sudah Selesai</th>
-
+                        <th scope="col">Selesai Pada</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,10 +58,8 @@ $detail = $select->selectProgresById($user['id']);
                             $produk = $select->selectProductById($akun['id_produk']);
                             $sekarang = $date->tanggalIndonesia($akun['tanggal_mulai']);
                             $prediksi = $date->tanggalIndonesia($akun['tanggal_selesai']);
-                            $hari = "P7D";
-                            $prediction_new = $date->ambilTanggalPrediksi($hari);
-                            $prediksi_baru = $date->tanggalIndonesia($prediction_new);
-                            if ($akun['status'] == '0' or $akun['status'] == '50') { 
+                            $record = $date->tanggalIndonesia($akun['record']);
+                            if ($akun['status'] == '100') {
                     ?>
                         <tr style="border:1px solid green;">
                             <td><?php echo $id++; ?></td>
@@ -74,19 +67,10 @@ $detail = $select->selectProgresById($user['id']);
                             <td><?php echo $produk['nama_product']?></td>
                             <td><?php echo $produk['deskripsi']?></td>
                             <td><?php echo $sekarang ?></td>
-                            <td><?php echo $prediksi ?><?php //echo $akun['status'] ?></td>
+                            <td><?php echo $record ?></td>
                             <td>
-                            <div>
-                                <a href="progres_action.php?id=<?php echo $akun['id'] ?>&aksi=aksiselesai" class="btn btn-success">Selesai</a>
-                            </div>
-                            <div>
-                                <a href="progres_action.php?id=<?php echo $akun['id'] ?>&aksi=aksiubah" class="btn btn-warning">Edit</a>
-                            </div>
-                            <div>
-                                <a href="proses.php?id=<?php echo $akun['id'] ?>&aksi=hapusprogres" class="btn btn-danger">Hapus</a>
-                            </div>
                             </td>
-                </tr>
+                        </tr>
             <?php }} ?>
                 </tbody>
             </table>
@@ -97,4 +81,4 @@ $detail = $select->selectProgresById($user['id']);
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</html>
+</html> 

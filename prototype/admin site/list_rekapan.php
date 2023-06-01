@@ -1,6 +1,8 @@
 <?php
-
 require 'function.php';
+$bayar = new ListBayar();
+$detail = $bayar->listBayar();
+
 
 $select = new Select();
 
@@ -10,13 +12,7 @@ if(!empty($_SESSION["id"])){
 else{
   header("Location: login.php");
 }
-
-$list = new produkUser();
-$detail = $list->listProduk();
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,37 +31,47 @@ $detail = $list->listProduk();
 </head>
 <?php include 'nav.php' ?>
 <body style="background-image: url('../css/11bg.jpg'); background-size:cover;">
+    
+    
     <div class="container">
     <h1>Welcome <?php echo $user["fname"]; ?></h1>
     <a href="logout.php">Logout</a>
     <div style="margin-top:20px;">
         <label style="font-size: 20px;">
-            Data Client
+            List Pembayaran
         </label>
             <table class="rwd-table">
                 <thead>
                     <tr style="border-bottom: 5px;">
                         <th scope="col">ID</th>
-                        <th scope="col">Gambar</th>
-                        <th scope="col">Nama Produk</th>
-                        <th scope="col">Deskripsi</th>
+                        <th scope="col">Nama Pengrajin</th>
+                        <th scope="col">Email Pengrajin</th>
+                        <th scope="col">Jumlah dana</th>
+                        <th scope="col">Email Investor</th>
+                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
                     $id = 1;
                         foreach ($detail as $akun) {
+                             if($akun['status'] == '2' or $akun['status'] == '4'){
+                            $pengrajin = $select->selectUsersById($akun['id_pengrajin']);
+                            $investor = $select->selectUsersById($akun['id_investor']);
                     ?>
-                        <tr style="border:1px solid green; ">
+                        <tr style="border:1px solid green;">
                             <td><?php echo $id++; ?></td>
-                            <td><img style="max-width:200px;max-height:200px" src="../uploads/<?php echo $akun['gambar']; ?>"></td>
-                            <td><?php echo $akun['nama_product']; ?></td>
-                            <td><?php echo $akun['deskripsi']; ?></td>
-                            <td>
-                            </td>
+                            <td><?php echo $pengrajin['fname']; ?></td>
+                            <td><?php echo $pengrajin['email']?></td>
+                            <td>Rp,-<?php echo $akun['jumlah']?></td>
+                            <td><?php echo $investor['email']?></td>
+                            <?php if ($akun['status'] == '4') { ?>
+                            <td>Pengembalian</td>
+                            <?php } elseif ($akun['status'] == '2') { ?>
+                            <td>Pemberian</td>
                         </tr>
                     <?php
-                        }
+                             }}}
                     ?>
                 </tbody>
             </table>

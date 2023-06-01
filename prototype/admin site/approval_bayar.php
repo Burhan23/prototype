@@ -43,49 +43,6 @@ else{
     
     <div style="margin-top:20px;">
         <label style="font-size: 20px;">
-            List MOU User
-        </label>
-            <table class="rwd-table">
-                <thead>
-                    <tr style="border-bottom: 5px;">
-                        <th scope="col">ID</th>
-                        <th scope="col">Investor</th>
-                        <th scope="col">Pengrajin</th>
-                        <th scope="col">Jumlah Dana</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                    $id_mou = 0;
-                        foreach ($detail_mou as $akun) {
-                             if($akun['status'] == '1' or $akun['status'] == '4' and $id_mou < 6){
-                        $pengrajin = $select->selectUsersById($akun['id_pengrajin']);
-                        $investor = $select->selectUsersById($akun['id_investor']);
-                        $id_mou = 1;
-                    ?>
-                    <td><?php echo $id_mou++ ?></td>
-                    <td><?php echo $investor['fname'] ?><h2>(NIK : <?php echo $investor['nik'] ?>)</h2></td>
-                    <td><?php echo $pengrajin['fname'] ?><h2>(NIK : <?php echo $investor['nik'] ?>)</h2></td>
-                    <td>Rp,-<?php echo $akun['jumlah_dana'] ?></td>
-                    <?php if($akun['status'] == '1') { ?>
-                    <td>
-                        <a class="btn btn-success" href="mou.php?id_invest=<?php echo $akun['id'] ?>">Kirim Mou</a>
-                    </td>
-                    <?php } elseif ($akun['status'] == '4') { ?>
-                    <td>
-                        <a class="btn btn-primary" href="bukti_mou.php?mou=<?php echo $akun['mou'] ?>">Cek MOU</a>
-                        <a class="btn btn-success" href="proses.php?id=<?php echo $akun['id'] ?>&aksi=mou_valid" onclick="return confirm('Apa kamu sudah cek?')">Valid</a>
-                    </td>
-                    <?php } } elseif ($id_mou == 0) { ?>
-                    <a> (Tidak ada untuk saat ini) </a>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                <?php }}  ?>
-                </tbody>
-            </table>
-        <label style="font-size: 20px;">
             List Pembayaran
         </label>
             <table class="rwd-table">
@@ -124,7 +81,6 @@ else{
                             <?php } elseif ($info['status'] == '9') {?>
                             <td>Sudah di kirim</td>
                             <?php } }   elseif ($id_pembayaran == 0) { ?>
-                    <a> (Tidak ada untuk saat ini) </a>
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>

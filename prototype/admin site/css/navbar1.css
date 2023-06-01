@@ -25,6 +25,10 @@ body {
   margin-right: 5px;
 }
 
+a{
+  font-size: 5px;
+}
+
 .nav-link:hover {
   text-decoration:none;
   color: #343a40;

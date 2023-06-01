@@ -49,7 +49,7 @@ else{
             <a href="invest.php?id_users=<?php echo $akun['id']; ?>&aksi=edit" class="btn btn-primary">
             	Invest
             </a>
-            <a href="" class="btn btn-success">
+            <a href="portofolio.php?id=<?php echo $akun['id'] ?>" class="btn btn-success">
               Lihat Portofolio
             </a>
             <a href="index_investor.php" class="btn btn-warning">Back</a>

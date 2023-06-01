@@ -25,7 +25,7 @@ if(!empty($_SESSION["id"])){
         <title>Mr.Kayu:Home</title>
     </head>
     <?php include 'nav.php' ?>
-    <body style="background-image: url('css/backgrond.jpeg'); background-size:cover;">
+    <body style="background-image: url('../css/11bg.jpg'); background-size:cover;">
         <div class="container">
         <h1>Welcome <?php echo $user["fname"]; ?></h1>
         <a href="logout.php">Logout</a>
@@ -39,21 +39,21 @@ if(!empty($_SESSION["id"])){
                             <th scope="col">ID</th>
                             <th scope="col">Username</th>
                             <th scope="col">Nama Lengkap</th>
-                            <th scope="col">Password</th>
                             <th scope="col">Role</th>
                             <th scope="col">Deskripsi</th>
+                            <th scope="col">Portofolio</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php
                         $id = 1;
                             foreach ($db->tampil_data() as $akun) {
+                                $progres = $select->cekPortofolio($akun['id'])
                         ?>
                             <tr style="border:1px solid green; ">
                                 <td><?php echo $id++; ?></td>
                                 <td><?php echo $akun['username']; ?></td>
                                 <td><?php echo $akun['fname']; ?></td>
-                                <td><?php echo $akun['password']; ?></td>
                                 <?php if($akun['role'] == 1) { ?>
                                 <td>Pengrajin</td>
                                 <?php }else { ?>
@@ -64,8 +64,11 @@ if(!empty($_SESSION["id"])){
                                 <?php } else { ?>
                                 <td><a class="btn btn-primary" href="detail_deskripsi.php?id=<?php echo $akun['id'] ?>">Cek Deskripsi</a></td>
                                 <?php } ?>
-                                <td>
-                                </td>
+                                <?php if($akun['role']=='1'){ ?>
+                                <td><a href="../portofolio.php?id=<?php echo $akun['id'] ?>&admin=1" class="btn btn-secondary">Cek Portofolio</a></td>
+                                <?php } else { ?>
+                                <td>-</td>
+                                <?php } ?>
                             </tr>
                         <?php
                             }

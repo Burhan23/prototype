@@ -232,6 +232,67 @@ if($aksi == "tambah"){
 		header("location:progres.php");
 	}
 
+} elseif ($aksi == 'ubahmulai') {
+	date_default_timezone_set('Asia/Jakarta');
+	$progres->editTanggalMulai($_REQUEST['id'],$_REQUEST['tanggal_mulai']);
+	header("location:progres.php");
+} elseif ($aksi == 'ubahselesai') {
+	//if ($_REQUEST['status'] == '50') {
+		?>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" 
+		rel="stylesheet" 
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" 
+		crossorigin="anonymous">
+		<div style="padding-top: 40px;" class="card" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Perhatian</h5>
+                </div>
+                <div class="modal-body">
+                        <div style="color:white">↓</div>
+                        <label style="color:black"for="gambar" class="form-label" >Perpanjang prediksi selesai sudah pernah anda perpanjang</label>
+                        <div style="color:white">↓</div>
+                        <div style="color:white">↓</div>
+                </div>
+                <div class="modal-footer">
+                    <a href="progres.php" class="btn btn-danger">Kembali Ke Halaman Progres</a>
+                    </form>
+                </div>
+                </div>
+            </div>
+			</div>
+			<?php
+	//} else {
+	$progres->editTanggalSelesai($_REQUEST['id'],$_POST['perpanjang'],$_REQUEST['tanggal_selesai']);
+	header("location:progres.php");
+	//}
+	
+} elseif ($aksi == 'selesai') {
+	date_default_timezone_set('Asia/Jakarta');
+	$hariini = $dateSekarang->format('Y-m-d');
+	$waktuini = $date->tanggalIndonesia($hariini);
+		if (($_FILES['selesai']['name']!="")){
+			$target_dir = "progres/";
+			$file = $_FILES['selesai']['name'];
+			$path = pathinfo($file);
+			$filename = $path['filename'];
+			$ext = $path['extension'];
+			$movefile = "selesai_".$_REQUEST['id_produk']."_".$_REQUEST['id_users']."_".$waktuini.".".$ext;
+			$temp_name = $_FILES['selesai']['tmp_name'];
+			$path_filename_ext = $target_dir.$movefile;
+			if (file_exists($path_filename_ext)) {
+				echo "Sorry, file already exists.";
+			}else{
+				move_uploaded_file($temp_name,$path_filename_ext);
+				echo "Congratulations! File Uploaded Successfully.";
+			}
+		}
+		$progres->progresSelesai($_REQUEST['id'],$movefile,$_REQUEST['record']);
+		header("location:progres_selesai.php");
+} elseif ($aksi == 'hapusprogres') {
+	$progres->deleteProgres($_REQUEST['id']);
+	header("location:progres.php");
 }
 
 ?>

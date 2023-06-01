@@ -31,7 +31,7 @@ else{
     <title>Mr.Kayu:Home</title>
 </head>
 <?php include 'nav.php' ?>
-<body style="background-image: url('css/backgrond.jpeg'); background-size:cover;">
+<body style="background-image: url('../css/11bg.jpg'); background-size:cover;">
     
     
     <div class="container">
@@ -55,7 +55,6 @@ else{
                 <?php
                     $id = 1;
                         foreach ($detail as $akun) {
-                            if($akun != "") {
                     ?>
                         <tr style="border:1px solid green;">
                             <td><?php echo $id++; ?></td>
@@ -72,11 +71,7 @@ else{
                     
                 </tbody>
             </table>
-            <?php } else { ?>
-                    </tbody>
-                </table>
-                <h3 style="color:wheat; text-align:center; background-color:orange; max-width:1050px; border:solid; padding: 10px;">Belum ada Pengajuan saat ini</h3>
-            <?php }} ?>
+            <?php } ?>
         </div>
     </div>
 </body>

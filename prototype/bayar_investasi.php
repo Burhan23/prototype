@@ -34,7 +34,7 @@ else{
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form style="margin-bottom:20px;" action="proses.php?id_investor=<?php echo $akun['id'] ?>&id_pengrajin=<?php echo $pengrajin['id'] ?>&jumlah=<?php echo $akun['jumlah_dana']+10000 ?>&id_invest=<?php echo $akun['id'] ?>&aksi=bayar" enctype="multipart/form-data" method="post" autocomplete="off">
+    <form style="margin-bottom:20px;" action="proses.php?id_investor=<?php echo $user['id'] ?>&id_pengrajin=<?php echo $pengrajin['id'] ?>&jumlah=<?php echo $akun['jumlah_dana']+10000 ?>&id_invest=<?php echo $akun['id'] ?>&aksi=bayar" enctype="multipart/form-data" method="post" autocomplete="off">
     <h2>Biaya yang perlu kamu bayar</h2>
     <h1 style="text-align:center">Rp,-<?php echo $akun['jumlah_dana']+10000 ?></h1>
     <h3 style="padding-bottom:30px;">Nomer Rekening : 21231232312</h3>

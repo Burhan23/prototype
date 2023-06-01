@@ -73,7 +73,7 @@ else{
                             <td><?php echo $akun['status_pengrajin'] ?></td>
                             <?php if ($akun['status'] == '0') { ?>
                             <td>
-                                <a class="btn btn-success btn-sm" href="proses.php?id=<?php echo $akun['id'] ?>&aksi=accept" onclick="return confirm('Apa kamu Yakin? Kamu harus mengembalikan sebanyak Rp,-<?php echo $akun['jumlah_dana']*(110/100) ?> tahun depan')">Ambil</a>
+                                <a class="btn btn-success btn-sm" href="proses.php?id=<?php echo $akun['id'] ?>&aksi=accept">Ambil</a>
                                 <a class="btn btn-primary" href="profile_Invest.php?id=<?php echo $akun['id_investor'] ?>">Lihat Investor</a>
                                 <a class="btn btn-danger btn-sm" href="proses.php?id=<?php echo $akun['id'] ?>&jumlah_dana=<?php echo $akun['jumlah_dana'];?>&id=<?php echo $akun['id_investor']; ?>&aksi=decline" onclick="return confirm('Kamu Yakin?')">Tolak</a>
                             </td>

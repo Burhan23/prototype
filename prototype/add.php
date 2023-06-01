@@ -43,23 +43,17 @@ else{
         <h1>
             Upload Produk
         </h1>
-        <form method="post">
-            <select name="waktu"  onChange="this.form.submit();">
-                <option value="<?php echo $value ?>">Model <?php echo $value ?></option>
-                <option value="1">Model 1</option>
-                <option value="2">Model 2</option>
-                <option value="3">Model 3</option>
-            </select>
-        </form>
-        <?php if ($value == "2") { ?>
         <form action="proses.php?id_users=<?php echo $user['id'] ?>&aksi=tambah" enctype="multipart/form-data" method="post">
             <div class="mb-3">
                 <label for="nama_product" class="form-label">Nama Produk</label>
                 <input type="text" class="form-control" id="nama_product" name="nama_product" placeholder="Nama product .." required>
             </div>
             <div class="mb-3">
+                <img style="min-width:150px;min-height:150px; max-width:400px; max-height:300px; background-image: url('progres/none.png'); background-size: cover; "id="gambar" src="#" alt=""/>
+            </div>
+            <div class="mb-3">
                 <label for="gambar" class="form-label">Gambar</label>
-                <input type="file" id="gambar" name="gambar" accept="image/jpg, image/png, image/jpeg">
+                <input type="file" id="filegambar" name="gambar" accept="image/jpg, image/png, image/jpeg">
             </div>
             <div class="mb-3">
                 <label for="deskripsi" class="form-label">Deskripsi</label>
@@ -68,14 +62,7 @@ else{
             <input type="submit" class="btn btn-primary" value="Simpan">
             <a class="btn btn-warning" href="index_pengrajin.php">Batal</a>
         </form>
-        <?php } ?>
 
     </div>
-    <script type='text/javascript'>
-        function getHouseModel(){
-        var model=$('#house_model').val();
-        alert(model);
-        }
-    </script>
 </body>
 </html>

@@ -68,6 +68,10 @@ class Select extends Connection{
     $result = mysqli_query($this->conn, "SELECT * FROM admin_mrkayu WHERE id = $id");
     return mysqli_fetch_assoc($result);
   }
+  public function selectProgresById($id){
+    $result = mysqli_query($this->conn, "SELECT * FROM progres_pengrajin WHERE id_users = $id");
+    return mysqli_fetch_assoc($result);
+  }
     public function selectUsersByID($id){
     $result = mysqli_query($this->conn, "SELECT * FROM users WHERE id = $id");
     return mysqli_fetch_assoc($result);
@@ -96,6 +100,10 @@ class Select extends Connection{
     public function cekPengembalianNotification(){
     $result = mysqli_query($this->conn, "SELECT * FROM bayar WHERE status = '3'");
     return mysqli_num_rows($result);
+    }
+    public function cekPortofolio($id){
+      $result = mysqli_query($this->conn, "SELECT * FROM progres_pengrajin WHERE (status = '100' and id = $id)");
+      return mysqli_num_rows($result);
     }
 }
 

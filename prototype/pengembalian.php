@@ -27,13 +27,14 @@ else{
   <body>
   <?php
     foreach ($detail as $akun) {
+      $investor = $select->selectUserById($akun['id_investor'])
   ?>
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form style="margin-bottom:20px;" action="proses.php?id=<?php echo $akun['id'] ?>&jumlah=<?php echo $akun['jumlah_dana']?>&id_users=<?php echo $akun['id'] ?>&aksi=kembalikan" enctype="multipart/form-data" method="post" autocomplete="off">
+    <form style="margin-bottom:20px;" action="proses.php?id_invest=<?php echo $akun['id'] ?>&id_pengrajin=<?php echo $akun['id_pengrajin'] ?>&id_investor=<?php echo $akun['id_investor'] ?>&jumlah=<?php echo $akun['jumlah_dana']?>&aksi=kembalikan" enctype="multipart/form-data" method="post" autocomplete="off">
     <h2>Biaya yang perlu kamu bayar</h2>
     <h1 style="text-align:center">Rp,-<?php echo $akun['jumlah_dana']*110/100 ?></h1>
     <h3 style="padding-bottom:30px;">Nomer Rekening : 21231232312</h3>
@@ -52,7 +53,7 @@ else{
       <label for="">Nomer Gopay/Dana/Rekening Bank : </label>
       <input type="text" class="form-control" name="nomer" required value=""> <br>
       <label for="">Investor yang dituju : </label>
-      <input type="text" class="form-control" name="email_investor" readonly value="<?php echo $akun['email_investor'] ?>"> <br>
+      <input type="text" class="form-control" name="email_investor" readonly value="<?php echo $investor['email'] ?>"> <br>
 	  <label for="">Bukti Pembayaran(dalam bentuk gambar)</label>
 	  <input type="file" class="form-control" name="bukti">
       
